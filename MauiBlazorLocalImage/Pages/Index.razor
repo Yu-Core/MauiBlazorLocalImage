@@ -7,6 +7,10 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 <div>
+    Current Page Url: @url
+</div>
+
+<div>
     <img src="@photoPath" style="max-width: 100%;" />
 </div>
 
@@ -21,6 +25,18 @@ Welcome to your new app.
 @code
 {
     string photoPath;
+
+    string url;
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        url = NavigationManager.Uri.ToString();
+        base.OnInitialized();
+    }
+
     private async Task PickPhoto()
     {
         var fileResult = await MediaPicker.Default.PickPhotoAsync();
@@ -34,7 +50,7 @@ Welcome to your new app.
 #if WINDOWS
         path = Uri.EscapeDataString(path);
 #elif IOS || MACCATALYST
-        path = "myfile://"+path;
+        path = "myfile://" + path;
 #endif
         photoPath = path;
         await InvokeAsync(StateHasChanged);
