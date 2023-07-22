@@ -9,11 +9,12 @@ namespace MauiBlazorLocalImage
     {
         private partial void BlazorWebViewInitializing(object sender, BlazorWebViewInitializingEventArgs e)
         {
-            e.Configuration.SetUrlSchemeHandler(new MySchemeHandler(e.Configuration.GetUrlSchemeHandler("app")), "app");
         }
 
         private partial void BlazorWebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
         {
+            var urlSchemeHandler = e.WebView.Configuration.GetUrlSchemeHandler("app");
+            e.WebView.Configuration.SetUrlSchemeHandler(new MySchemeHandler(urlSchemeHandler), "app");
         }
 
         private class MySchemeHandler : NSObject, IWKUrlSchemeHandler
