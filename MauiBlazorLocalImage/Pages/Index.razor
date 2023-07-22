@@ -1,0 +1,40 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div>
+    <img src="@photoPath" style="max-width: 100%;" />
+</div>
+
+<div style="word-wrap: break-word;">
+    @photoPath
+</div>
+
+<div>
+    <button @onclick="PickPhoto">PickPhoto</button>
+</div>
+
+@code
+{
+    string photoPath;
+    private async Task PickPhoto()
+    {
+        var fileResult = await MediaPicker.Default.PickPhotoAsync();
+        var path = fileResult?.FullPath;
+
+        #if WINDOWS
+    path = Uri.EscapeDataString(path);
+        #endif
+        if (path is null)
+        {
+            return;
+        }
+
+        photoPath = path;
+        await InvokeAsync(StateHasChanged);
+    }
+}
