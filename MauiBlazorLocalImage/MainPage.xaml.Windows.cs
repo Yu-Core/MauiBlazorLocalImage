@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebView;
-using Windows.Storage.Streams;
-using Windows.Storage;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.Streams;
 
 namespace MauiBlazorLocalImage
 {
@@ -23,11 +22,12 @@ namespace MauiBlazorLocalImage
                 {
                     using var contentStream = File.OpenRead(path);
                     IRandomAccessStream stream = await CopyContentToRandomAccessStreamAsync(contentStream);
-                    var response = webview2.Environment.CreateWebResourceResponse(stream, 200, "OK", "");
+                    var response = webview2.Environment.CreateWebResourceResponse(stream, 200, "OK", null);
                     args.Response = response;
                 }
             };
 
+            //为什么这么写？我也不知道，Maui源码就是这么写的
             async Task<IRandomAccessStream> CopyContentToRandomAccessStreamAsync(Stream content)
             {
                 using var memStream = new MemoryStream();

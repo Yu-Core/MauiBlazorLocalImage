@@ -17,8 +17,6 @@ public static class MauiProgram
 
 		builder.Services.AddMauiBlazorWebView();
 
-        //builder.Services.ConfigureMauiHandlers(static handlers => handlers.AddHandler<IBlazorWebView, MyBlazorWebViewHandler>());
-
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();

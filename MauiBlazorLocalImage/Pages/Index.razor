@@ -26,14 +26,16 @@ Welcome to your new app.
         var fileResult = await MediaPicker.Default.PickPhotoAsync();
         var path = fileResult?.FullPath;
 
-        #if WINDOWS
-    path = Uri.EscapeDataString(path);
-        #endif
         if (path is null)
         {
             return;
         }
 
+#if WINDOWS
+        path = Uri.EscapeDataString(path);
+#elif IOS || MACCATALYST
+        path = "myfile://"+path;
+#endif
         photoPath = path;
         await InvokeAsync(StateHasChanged);
     }
